@@ -46,3 +46,33 @@ for (i in 2:25) wss[i] <- sum(kmeans(df_loan[,c("payments","status")],
                                      centers=i)$withinss)
 plot(1:25, wss, type="b", xlab="Number of Clusters",
      ylab="Within groups sum of squares")
+
+##Hierarchical clustering
+d <- dist(df_loan)
+hc <- hclust(d)
+plot(hc) 
+
+##naive load
+library(kernlab); #for spam data
+library(caret)
+library(e1071)
+library(klaR)
+
+##naive klar
+set.seed(3456)
+fit2 <- NaiveBayes(df_loan_train, df_loan_train$status, usekernal = FALSE, fL = 0)
+pred2 <- predict(fit2, loan_test)
+#Warnings that probability is 0 for some cases
+confusionMatrix(pred2$class, loan_test$status)
+
+## e1071 Naive bayes
+set.seed(3456)
+fit1 <- naiveBayes(loan_train, loan_train$status, type="raw")
+pred1 <- predict(fit1, df_test, type="class")
+confusionMatrix(pred1, df_test$status)
+
+##C50
+set.seed(12345)
+library(C50)
+credit_model <- C5.0(df_loan[-7], df_loan$status)
+credit_pred <- predict(credit_model, df_loan_test)
