@@ -39,3 +39,7 @@ for (i in 2:25) wss[i] <- sum(kmeans(df_loan[,c("payments","status")],
                                      centers=i)$withinss)
 plot(1:25, wss, type="b", xlab="Number of Clusters",
      ylab="Within groups sum of squares")
+
+#Normallize with professor formula
+#subtracting the average and dividing the result by the sample standard deviation
+df_loan$norm_rel <- ((df_loan$rel - mean(df_loan$rel)) / (sd(df_loan$rel)) * sqrt((nrow(df_loan)-1)/nrow(df_loan)))
