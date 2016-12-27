@@ -1,6 +1,7 @@
 library(plyr)
 library("rpart")
 
+
 ages_function <- function(data){
 
   ages <-c()

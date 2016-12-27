@@ -90,6 +90,7 @@ df_test <- merge(x = df_test, y = df_account_balance_test[, c('client_id', "bala
 df_test <- merge(x = df_test,y = df_loan_test,by="account_id")
 
 
+
 tree <- rpart(status ~ unemploymant.rate..96 +average.salary + balance  +amount +duration, data = df_train, method = "class")
 
 pred <- predict(tree, df_test, type = 'class')
