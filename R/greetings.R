@@ -1,6 +1,6 @@
 library(plyr)
-library("rpart")
-
+library(rpart)
+library(dplyr)
 
 ages_function <- function(data){
 
@@ -226,4 +226,5 @@ text(tree, pretty = 0)
 
 sum(loan_previsto$Predicted == -1)
 dev.off()
+
 
