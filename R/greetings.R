@@ -227,4 +227,23 @@ text(tree, pretty = 0)
 sum(loan_previsto$Predicted == -1)
 dev.off()
 
+#Passar status para factor
+df_train$status <- as.factor(df_train$status)
+#########################
 
+library(C50)
+df_temp <- df_train[, -c(1:4)]
+df_temp <- df_temp[, -5]
+df_temp_test <- df_test[, -c(1:4)]
+df_temp_test <- df_temp_test[, -5]
+credit_model <- C5.0(df_temp[-9], df_temp$status)
+credit_pred <- predict(credit_model, df_temp_test)
+df_test$status = credit_pred
+
+credit_boost10 <- C5.0(df_temp[-9], df_temp$status, trials = 4)
+credit_boost_pred10 <- predict(credit_boost10, df_temp_test)
+df_test$status = credit_boost_pred10
+
+#Normallize with professor formula
+#subtracting the average and dividing the result by the sample standard deviation
+normalize <- function(x){return ((x - mean(x)) / (sd(x)) * sqrt((nrow(x)-1)/nrow(x)))}
